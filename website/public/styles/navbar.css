@@ -1,0 +1,104 @@
+html,
+body {
+    margin: 0;
+    font-family: Roboto, arial;
+}
+
+header {
+    height: 64px;
+    box-shadow: 0 1px 0 rgba(12, 13, 14, 0.1), 0 1px 3px rgba(12, 13, 14, 0.1), 0 4px 20px rgba(12, 13, 14, 0.035), 0 1px 1px rgba(12, 13, 14, 0.025);
+    border-top: #F17502 solid 2px;
+    position: fixed;
+    width: 100%;
+    z-index: 8;
+    background-color: white;
+    margin-bottom: 60px;
+}
+
+#menuBtn {
+    display: none;
+    right: 11px;
+    position: absolute;
+    top: 8px;
+    background: 0 0;
+    outline: 0;
+    border: 0;
+    font-size: 36px;
+    color: #8b9493;
+    cursor: pointer;
+}
+
+header a {
+    text-decoration: none;
+}
+
+header img {
+    width: 47px;
+    margin: 6px 0 0 30px;
+}
+
+#logoTxt {
+    color: #F17502;
+    margin: 0;
+    top: 9px;
+    left: 92px;
+    position: fixed;
+    font-size: 27px;
+}
+
+header h2 {
+    color: #F17502;
+    margin: 0;
+    position: fixed;
+    top: 35px;
+    left: 98px;
+    font-size: 19px;
+    font-weight: 100;
+}
+
+header #inlineNav {
+    right: 0;
+    top: 0;
+    position: fixed;
+}
+
+header #inlineNav a {
+    text-decoration: none;
+    display: inline-block;
+    margin: 0 15px;
+    line-height: 66px;
+    text-align: center;
+    color: #8b9493;
+    transition: 0.1s all;
+}
+
+header #inlineNav a:hover,
+.selected {
+    color: #616766 !important;
+}
+
+.material-icons {
+    font-size: 40px;
+    line-height: 64px;
+
+}
+
+@media only screen and (max-width: 840px) {
+    header {
+        height: 56px;
+    }
+    header img {
+        width: 39px;
+    }
+    #logoTxt {
+        left: 90px;
+        font-size: 25px;
+    }
+    header h2 {
+        left: 92px;
+        font-size: 18px;
+    }
+    #inlineNav {
+        display: none;
+    }
+}

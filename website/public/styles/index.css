@@ -1,0 +1,40 @@
+main {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#grid {
+    display: grid;
+    margin: 0px auto;
+    grid-template-columns: repeat(3, 1fr);
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+    width: 80%;
+}
+
+.card {
+    grid-column: span 1;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    border: 0 solid;
+    border-radius: 4px;
+}
+
+.card img {
+    width: 100%;
+}
+
+.overlay {
+    background-image: linear-gradient(130deg, rgba(0,0,0,0.7), rgba(0, 0, 0, 0.4));
+    transition: 0.2s all;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 99%;
+}
+
+.overlay:hover {
+    opacity: 0;
+}

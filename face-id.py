@@ -52,7 +52,7 @@ while 1:
         print(labels[person])
         print(conf)
 
-        if conf >= 130:
+        if conf >= 90:
             subject = labels[person]
             if (checkSubject(subject) == 1):
                 #Friendly
