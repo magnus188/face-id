@@ -1,0 +1,5 @@
+identificator/face-id_simple/__pycache__
+identificator/face-id_simple/serviceAccountKey.json
+identificator/face-id_neural-network/serviceAccountKey.json
+identificator/face-id_neural-network/__pycache__
+website/public/.gitignore
