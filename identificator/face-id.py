@@ -1,12 +1,12 @@
-import numpy as np
 import cv2
 import pickle
+from aimer import AimControl
 
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-cred = credentials.Certificate("serviceAccountKey.json")
+cred = credentials.Certificate("./serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
 fs = firestore.client()
 hostiles_ref = fs.collection(u'persons')
@@ -28,15 +28,15 @@ def checkSubject(name):
             #Hostile
             return 1
 
-face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier('./haarcascade_frontalface_default.xml')
 recognizer = cv2.face.LBPHFaceRecognizer_create()
-recognizer.read("face-trainer.yml")
+recognizer.read("./face-trainer.yml")
 
 labels = {"person_name": 1}
-with open("pickle/face-labels.pickle", 'rb') as f:
+with open("./pickle/face-labels.pickle", 'rb') as f:
 	og_labels = pickle.load(f)
 	labels = {v:k for k,v in og_labels.items()}
-
+    
 cap = cv2.VideoCapture(0)
 
 while 1:
@@ -54,23 +54,24 @@ while 1:
 
         if conf >= 100:
             subject = labels[person]
+            # Reads data from FS on every fucking iteration
             if (checkSubject(subject) == 1):
                 #Friendly
-                print('Friendly')
                 cv2.rectangle(img, (x, y), (x+w, y+h), (0, 128, 0), 2)
                 font = cv2.FONT_HERSHEY_SIMPLEX
-                cv2.putText(img, subject, (x,y), font, 1, (0,128,0), 2, cv2.LINE_AA)
+                cv2.putText(img, subject + ' ' + str(conf), (x,y), font, 1, (0,128,0), 2, cv2.LINE_AA)
+                AimControl.aim(x,y,w,h)
             elif (checkSubject(subject) == 0):
                 #Hostile
-                print('Hostile')
                 cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 2)
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 cv2.putText(img, subject, (x,y), font, 1, (0,0,255), 2, cv2.LINE_AA)
+                AimControl.aim(x,y,w,h)
             else:
                 print('Elseee')
         else:
             #Unknown
-            print('Unknown')
+            #print('Unknown')
             cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
             font = cv2.FONT_HERSHEY_SIMPLEX
             cv2.putText(img, "Unknown", (x,y), font, 1, (255,0,0), 2, cv2.LINE_AA)

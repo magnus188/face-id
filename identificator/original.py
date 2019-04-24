@@ -27,8 +27,8 @@ while 1:
         roi_color = img[y:y+h, x:x+w]
 
         person, conf = recognizer.predict(roi_gray)
-        print(labels[person])
-        print(conf)
+        #print(labels[person])
+        #print(conf)
 
         if conf >= 90: 
                 cv2.rectangle(img, (x, y), (x+w, y+h), (0, 128, 0), 2)

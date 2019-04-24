@@ -18,10 +18,10 @@ class FaceDatabase:
             subjectStatus = subject['status']
             if (subjectName == name):
                 if (subjectStatus == 0):
-                    print(subjectName)
-                    print('hostile')
+                    #print(subjectName)
+                    #print('hostile')
                     return 1
                 elif (subjectStatus == 1):
-                    print(subject['name'])
-                    print('friendly')
+                    #print(subject['name'])
+                    #print('friendly')
                     return 0
