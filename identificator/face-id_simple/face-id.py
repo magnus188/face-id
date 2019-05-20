@@ -8,6 +8,7 @@ from firebase_admin import firestore
 
 cred = credentials.Certificate("./serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
+
 fs = firestore.client()
 hostiles_ref = fs.collection(u'persons')
 
@@ -40,6 +41,7 @@ with open("./pickle/face-labels.pickle", 'rb') as f:
 cap = cv2.VideoCapture(0)
 
 while 1:
+    targets = []
     ret, img = cap.read()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
@@ -49,32 +51,54 @@ while 1:
         roi_color = img[y:y+h, x:x+w]
 
         person, conf = recognizer.predict(roi_gray)
-        print(labels[person])
-        print(conf)
+        #print(labels[person])
+        #print(conf)
+        
 
         if conf >= 100:
+            #TODO: fix this
             subject = labels[person]
-            # Reads data from FS on every fucking iteration
+            print(subject)
+            if (subject == None):
+                subject = "unknown"
+            targets = dict()
+            targets.update({
+                subject: dict().update({
+                    x: x,
+                    y: y,
+                    w: w,
+                    h: h
+                })
+            })
+
+            
             if (checkSubject(subject) == 1):
                 #Friendly
                 cv2.rectangle(img, (x, y), (x+w, y+h), (0, 128, 0), 2)
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 cv2.putText(img, subject + ' ' + str(conf), (x,y), font, 1, (0,128,0), 2, cv2.LINE_AA)
-                AimControl.aim(x,y,w,h)
+                #targets.append(subject)
+                #if (len(targets)==1):
+                #    AimControl.aim(x,y,w,h,img,checkSubject(subject))
+
             elif (checkSubject(subject) == 0):
                 #Hostile
                 cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 2)
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 cv2.putText(img, subject, (x,y), font, 1, (0,0,255), 2, cv2.LINE_AA)
-                AimControl.aim(x,y,w,h)
+                #targets.append(subject)
+                #AimControl.aim(x,y,w,h,img,checkSubject(subject))
             else:
                 print('Elseee')
         else:
             #Unknown
-            #print('Unknown')
+            #targets.append('unknown')
+            #AimControl.aim(x,y,w,h,img,2)
+
             cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
             font = cv2.FONT_HERSHEY_SIMPLEX
             cv2.putText(img, "Unknown", (x,y), font, 1, (255,0,0), 2, cv2.LINE_AA)
+
                 
     
     cv2.imshow('img', img)
