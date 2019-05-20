@@ -9,58 +9,12 @@ class AimControl:
 #https://circuitdigest.com/microcontroller-projects/rs485-serial-communication-between-arduino-and-raspberry-pi
 
 
-    def aim(targetDict,img,status):
+    def aim(x,y,w,h,img,status):
 
         height, width, channels = img.shape
         # Center of frame
         center_frame_x = int(width/2)+5
         center_frame_y = int(height/2)+50
-
-        def vectorLength(x0,y0,x,y):
-            return math.sqrt(math.pow((x-x0),2) + math.pow((y-y0),2))
-
-        closestAim = dict()
-        closestAim.update({
-            "x": 999,
-            "y": 999,
-            "w": 999,
-            "h": 999
-        })
-
-        # Iterate trough list of subjects and find the closest
-        for key, value in targetDict.items():
-
-            dictX = closestAim["x"]
-            dictY = closestAim["y"]
-            dictW = closestAim["w"]
-            dictH = closestAim["h"]
-            dict_center_x = int(dictX+dictW/2)
-            dict_center_y = int(dictY+dictH/2)
-
-            valueX = value[0]
-            valueY = value[1]
-            valueW = value[2]
-            valueH = value[3]
-            value_center_x = int(valueX+valueW/2)
-            value_center_y = int(valueY+valueH/2)
-
-            if (vectorLength(center_frame_x,center_frame_y,value_center_x,value_center_y) < vectorLength(center_frame_x,center_frame_y,dict_center_x,dict_center_y)):
-                print('close target found')
-                print(vectorLength(center_frame_x,center_frame_y,value_center_x,value_center_y))
-                print(vectorLength(center_frame_x,center_frame_y,dict_center_x,dict_center_y))
-                closestAim.update({
-                    "x": valueX,
-                    "y": valueY,
-                    "w": valueW,
-                    "h": valueH
-                })
-                print(closestAim)
-        
-        x = closestAim["x"]
-        y = closestAim["y"]
-        w = closestAim["w"]
-        h = closestAim["h"]
-
 
         # Center of face rect
         center_x = int(x+w/2)

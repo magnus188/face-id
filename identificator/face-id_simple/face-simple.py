@@ -9,6 +9,7 @@ face_cascade = cv2.CascadeClassifier('./haarcascade_frontalface_default.xml')
 
 cap = cv2.VideoCapture(0)
 
+
 while 1:
     ret, img = cap.read()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -16,15 +17,10 @@ while 1:
 
     for (x, y, w, h) in faces:
         
-        subject = "unknown"
-        targets = dict()
-        targets.update({
-            subject: (x,y,w,h)
-        })
-
         #Unknown
-        if (len(targets)==1):
-            AimControl.aim(targets,img,2)
+        AimControl.aim(x,y,w,h,img,2)
+
+        #FIXME: Aim for only one person
 
         cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
         font = cv2.FONT_HERSHEY_SIMPLEX
