@@ -14,17 +14,24 @@ while 1:
     ret, img = cap.read()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+    
+    targets = []
 
     for (x, y, w, h) in faces:
         
-        #Unknown
-        AimControl.aim(x,y,w,h,img,2)
+        subject = "Unknown"
+        
+        targets.append(subject)
+        if (len(targets)==1):
+            AimControl.aim(x,y,w,h,img,2)
+        
+        print(targets)
 
         #FIXME: Aim for only one person
 
         cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
         font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(img, "Unknown", (x,y), font, 1, (255,0,0), 2, cv2.LINE_AA)       
+        cv2.putText(img, subject, (x,y), font, 1, (255,0,0), 2, cv2.LINE_AA)       
     
     cv2.imshow('img', img)
 

@@ -58,26 +58,16 @@ while 1:
         if conf >= 100:
             #TODO: fix this
             subject = labels[person]
-            print(subject)
             if (subject == None):
                 subject = "unknown"
-            targets = dict()
-            targets.update({
-                subject: dict().update({
-                    x: x,
-                    y: y,
-                    w: w,
-                    h: h
-                })
-            })
-
+           
             
             if (checkSubject(subject) == 1):
                 #Friendly
                 cv2.rectangle(img, (x, y), (x+w, y+h), (0, 128, 0), 2)
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 cv2.putText(img, subject + ' ' + str(conf), (x,y), font, 1, (0,128,0), 2, cv2.LINE_AA)
-                #targets.append(subject)
+                targets.append(subject)
                 #if (len(targets)==1):
                 #    AimControl.aim(x,y,w,h,img,checkSubject(subject))
 
@@ -86,14 +76,16 @@ while 1:
                 cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 2)
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 cv2.putText(img, subject, (x,y), font, 1, (0,0,255), 2, cv2.LINE_AA)
-                #targets.append(subject)
-                #AimControl.aim(x,y,w,h,img,checkSubject(subject))
+                targets.append(subject)
+                if (len(targets)==1):
+                    AimControl.aim(x,y,w,h,img,checkSubject(subject))
             else:
                 print('Elseee')
         else:
             #Unknown
-            #targets.append('unknown')
-            #AimControl.aim(x,y,w,h,img,2)
+            targets.append('unknown')
+            if (len(targets)==1):
+                AimControl.aim(x,y,w,h,img,2)
 
             cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
             font = cv2.FONT_HERSHEY_SIMPLEX
