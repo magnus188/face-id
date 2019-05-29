@@ -10,16 +10,21 @@ class AimControl:
 
 
     def aim(x,y,w,h,img,status):
+        # Initialize arduino communication
+        arduino = serial.Serial('COM13', 9600)
 
+        # Get properties of image
         height, width, channels = img.shape
+
         # Center of frame
         center_frame_x = int(width/2)+5
         center_frame_y = int(height/2)+50
 
-        # Center of face rect
+        # Center of face roi
         center_x = int(x+w/2)
         center_y = int(y+h/2)
 
+        # Aiming cross
         cv2.line(img,(center_x-15,center_y),(center_x,center_y),(0,0,255),2)
         cv2.line(img,(center_x+15,center_y),(center_x,center_y),(0,0,255),2)
         cv2.line(img,(center_x,center_y-15),(center_x,center_y),(0,0,255),2)
@@ -31,8 +36,8 @@ class AimControl:
         cv2.line(img,(center_frame_x,center_frame_y),(center_x,center_y),(0,255,0),3)
 
 
+        # check if subject is in sight
         def inSight():
-            # check if subject is in sight
             if (center_frame_x-15 < center_x < center_frame_x+15 and center_frame_y-15 < center_y < center_frame_y+15):
                 # In sight
                 return 1
@@ -40,16 +45,15 @@ class AimControl:
                 # Not in sight
                 return 0
 
+        # Fire
         def fire():
+            arduino.write((b'f'))
+            print((b'f'))
+            #print('fireeeeee')
             #time.sleep(1000)
-            #ardu= serial.Serial('/dev/ttyACM0',9600, timeout=.1)
-            #time.sleep(1)
-            #ardu.write('f'.encode())
-            #ardu.close()
-            print('fireeeeee')
-            
 
-
+  
+        #Aim and/or engage target
         while (1):
             if (inSight()==1):
                 #Fire shot

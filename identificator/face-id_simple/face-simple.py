@@ -24,8 +24,6 @@ while 1:
         targets.append(subject)
         if (len(targets)==1):
             AimControl.aim(x,y,w,h,img,2)
-        
-        print(targets)
 
         #FIXME: Aim for only one person
 
