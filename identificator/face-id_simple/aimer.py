@@ -3,6 +3,7 @@ import time
 import numpy as np
 import cv2
 import math
+from fire import FireControl
 
 class AimControl:
 
@@ -45,20 +46,12 @@ class AimControl:
                 # Not in sight
                 return 0
 
-        # Fire
-        def fire():
-            arduino.write((b'f'))
-            print((b'f'))
-            #print('fireeeeee')
-            #time.sleep(1000)
-
-  
         #Aim and/or engage target
         while (1):
             if (inSight()==1):
                 #Fire shot
                 if (status!=1):
-                    fire()
+                    FireControl.fire()
                 break
             elif(inSight()!=1):
 
